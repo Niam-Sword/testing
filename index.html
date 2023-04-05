@@ -114,13 +114,13 @@ var secondContext = secondCanvas.getContext("2d");						// Accesses output canva
 
 // Canvas elements in HTML are XY coordinate grids. Check out https://www.w3schools.com/html/html5_canvas.asp for more info.
 
-for(var indexH = 0; indexH < inputImage.height - 1; indexH++)				// Iterates through each column of the Canvas, excluding the last. indexH represents the Y coordinate.
+for(var indexH = 0; indexH < firstCanvas.height - 1; indexH++)				// Iterates through each column of the Canvas, excluding the last. indexH represents the Y coordinate.
 {
-	for(var indexW = 0; indexW < inputImage.width - 1; indexW++)			// Iterates through each row of the Canvas, excluding the last. indexW represents the X coordinate.
+	for(var indexW = 0; indexW < firstCanvas.width - 1; indexW++)			// Iterates through each row of the Canvas, excluding the last. indexW represents the X coordinate.
 	{
 		var originalPixel = firstContext.getImageData(indexW, indexH, 1, 1);	// Collects the RGBA data of a single pixel from your original canvas. getImageData() returns the pixel for a rectangle of a specified size. This line collects the pixel of a 1x1 rectangle (aka a single pixel) with a top left corner at the coordinates (indexW, indexH) in your original canvas. We have the -1 in our for loops to avoid going outside the bounds of the canvas.
-		var blue = temporaryPixel.data[2];					// Collects the blue value from the selected pixel. Use .data to get the actual array from the pixel you just found. Pixel arrays take the form [r, g, b, alpha].
-		var alpha = temporaryPixel.data[3];					// Alpha is the transparency of a pixel.
+		var blue = originalPixel.data[2];					// Collects the blue value from the selected pixel. Use .data to get the actual array from the pixel you just found. Pixel arrays take the form [r, g, b, alpha].
+		var alpha = originalPixel.data[3];					// Alpha is the transparency of a pixel.
 
 		var newPixel = [0, 0, blue, alpha];					// Creates a new pixel with only the blue and alpha values of the original pixel.
 		secondContext.putImageData(newPixel, indexW, indexH)			// Draws the new pixel onto the second canvas.
