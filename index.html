@@ -127,7 +127,8 @@ for(var indexH = 0; indexH < firstCanvas.height - 1; indexH++)				// Iterates th
 		originalPixelData[1] = 1;						// Sets the green value of the pixel to 0.
 		originalPixelData[2] = blue;						// Unnecessary.
 		originalPixelData[3] = alpha;						// Unnecessary.
-		secondContext.putImageData(originalPixelData, indexW, indexH)		// Draws the pixel after changing the RGBA values onto the second canvas.
+		secondContext.putImageData(originalPixel, indexW, indexH)		// Draws the pixel after changing the RGBA values onto the second canvas.
+		// We're essentially selecting a pixel from the first canvas, modifying its RGBA values, then redrawing the pixel on the second canvas.
 	}
 }
           
