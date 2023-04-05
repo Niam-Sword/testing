@@ -119,11 +119,15 @@ for(var indexH = 0; indexH < firstCanvas.height - 1; indexH++)				// Iterates th
 	for(var indexW = 0; indexW < firstCanvas.width - 1; indexW++)			// Iterates through each row of the Canvas, excluding the last. indexW represents the X coordinate.
 	{
 		var originalPixel = firstContext.getImageData(indexW, indexH, 1, 1);	// Collects the RGBA data of a single pixel from your original canvas. getImageData() returns the pixel for a rectangle of a specified size. This line collects the pixel of a 1x1 rectangle (aka a single pixel) with a top left corner at the coordinates (indexW, indexH) in your original canvas. We have the -1 in our for loops to avoid going outside the bounds of the canvas.
-		var blue = originalPixel.data[2];					// Collects the blue value from the selected pixel. Use .data to get the actual array from the pixel you just found. Pixel arrays take the form [r, g, b, alpha].
-		var alpha = originalPixel.data[3];					// Alpha is the transparency of a pixel.
+		var originalPixelData = originalPixel.data;				// Use .data to get the actual array from the pixel you just found. Pixel arrays take the form [r, g, b, alpha].
+		var blue = originalPixelData[2];					// Unnecessary line, but demonstrates how you collect data. Collects the blue value from the selected pixel.
+		var alpha = originalPixelData[3];					// Unnecessary line. Collects the alpha value from the selected pixel. Alpha is the transparency of a pixel.
 
-		var newPixel = [0, 0, blue, alpha];					// Creates a new pixel with only the blue and alpha values of the original pixel.
-		secondContext.putImageData(newPixel, indexW, indexH)			// Draws the new pixel onto the second canvas.
+		originalPixelData[0] = 0;						// Sets the red value of the pixel to 0.
+		originalPixelData[1] = 1;						// Sets the green value of the pixel to 0.
+		originalPixelData[2] = blue;						// Unnecessary.
+		originalPixelData[3] = alpha;						// Unnecessary.
+		secondContext.putImageData(originalPixelData, indexW, indexH)		// Draws the pixel after changing the RGBA values onto the second canvas.
 	}
 }
           
