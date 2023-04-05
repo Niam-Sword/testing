@@ -102,7 +102,30 @@
 
           /* PUT ANY CHANGES TO THE JAVASCRIPT HERE  */
           
-          
+          // This code assumes the HTML Canvas element of your input image is named "original" and the canvas of your output image is named "processed". Images and canvases are separate things. HTML essentially takes data from an image and draws a picture on the canvas based on that data.
+
+var firstCanvas = document.getElementById("myCanvas");						// Accesses input canvas, which is where your uploaded image was drawn.
+var firstContext = firstCanvas.getContext("2d");						// Accesses the context of the canvas. Context allows for drawing on the Canvas.
+
+var secondCanvas = document.getElementById("processed");					// Accesses output canvas, which is where you want to draw a processed image.
+var secondContext = secondCanvas.getContext("2d");						// Accesses output canvas context, which will allow you to draw to the second canvas.
+
+
+
+// Canvas elements in HTML are XY coordinate grids. Check out https://www.w3schools.com/html/html5_canvas.asp for more info.
+
+for(var indexH = 0; indexH < inputImage.height - 1; indexH++)				// Iterates through each column of the Canvas, excluding the last. indexH represents the Y coordinate.
+{
+	for(var indexW = 0; indexW < inputImage.width - 1; indexW++)			// Iterates through each row of the Canvas, excluding the last. indexW represents the X coordinate.
+	{
+		var originalPixel = firstContext.getImageData(indexW, indexH, 1, 1);	// Collects the RGBA data of a single pixel from your original canvas. getImageData() returns the pixel for a rectangle of a specified size. This line collects the pixel of a 1x1 rectangle (aka a single pixel) with a top left corner at the coordinates (indexW, indexH) in your original canvas. We have the -1 in our for loops to avoid going outside the bounds of the canvas.
+		var blue = temporaryPixel.data[2];					// Collects the blue value from the selected pixel. Use .data to get the actual array from the pixel you just found. Pixel arrays take the form [r, g, b, alpha].
+		var alpha = temporaryPixel.data[3];					// Alpha is the transparency of a pixel.
+
+		var newPixel = [0, 0, blue, alpha];					// Creates a new pixel with only the blue and alpha values of the original pixel.
+		secondContext.putImageData(newPixel, indexW, indexH)			// Draws the new pixel onto the second canvas.
+	}
+}
           
           
         } // end of img.onload
@@ -135,6 +158,7 @@
       <div id="messageDisplayArea"></div>
       
       <canvas id="myCanvas" width=600 height=500 style="border:1px solid #d3d3d3;"></canvas>
+     <canvas id="processed"></canvas>
       <script> /* This script initiates the cavas and puts the text on the canvas "myCanvas" */
         var canvas = document.getElementById('myCanvas');
         var context = canvas.getContext("2d");
